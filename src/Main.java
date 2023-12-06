@@ -22,7 +22,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,9 +38,9 @@ public class Main {
         threadCountries.setDaemon(true);
         threadCountries.start();
         threadCapitals.start();
-        try{
-            threadCountries.join(2000);
-            threadCapitals.join(2000);
+        try {
+            threadCountries.join();
+            threadCapitals.join();
 
         } catch (InterruptedException ex) {
             ex.printStackTrace();
@@ -56,7 +55,6 @@ public class Main {
         System.out.println("\n\tSorted by Capitals :");
         MyRunnable.countryInfos.sort(Comparator.comparing(CountryInfo::getCapital));
         MyRunnable.countryInfos.forEach(System.out::println);
-
     }
 
     public static void writeFiles() {
@@ -65,7 +63,7 @@ public class Main {
             try (FileWriter fileWriter = new FileWriter("countries.txt", false)) {
                 fileWriter.write(countries);
                 fileWriter.flush();
-                System.out.println("Writed countries.txt");
+                System.out.println("\n\tWriting countries.txt");
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
@@ -75,10 +73,11 @@ public class Main {
             try (FileWriter fileWriter = new FileWriter("capitals.txt", false)) {
                 fileWriter.write(capitals);
                 fileWriter.flush();
-                System.out.println("Writed capitals.txt");
+                System.out.println("\n\tWriting capitals.txt");
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
         }
+        else System.out.println("\tFiles exists");
     }
 }

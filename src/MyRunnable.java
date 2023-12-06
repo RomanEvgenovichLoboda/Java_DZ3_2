@@ -21,10 +21,12 @@ public class MyRunnable implements Runnable {
             String line;
             synchronized (countryInfo) {
                 while ((line = bufferedReader.readLine()) != null) {
-                    Thread.sleep(100);
+                    Thread.sleep(300);
                     if (path.equals("countries.txt")) {
                         System.out.print(line + " --> ");
                         countryInfo.setCountry(line);
+                        countryInfo.notify();
+                        countryInfo.wait();
                     } else {
                         if (countryInfo.getCountry().isEmpty()) {
                             countryInfo.notify();
@@ -32,11 +34,10 @@ public class MyRunnable implements Runnable {
                         }
                         System.out.print(line + "\n");
                         countryInfo.setCapital(line);
-
                         countryInfos.add(new CountryInfo(countryInfo));
+                        countryInfo.notify();
+                        if (countryInfos.size() < 10) countryInfo.wait();
                     }
-                    countryInfo.notify();
-                    countryInfo.wait();
                 }
             }
         } catch (IOException | InterruptedException e) {

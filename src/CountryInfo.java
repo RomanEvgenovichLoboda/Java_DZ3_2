@@ -1,7 +1,8 @@
 public class CountryInfo {
     private String country;
     private String capital;
-    public CountryInfo(){
+
+    public CountryInfo() {
         capital = "";
         country = "";
     }
@@ -10,10 +11,12 @@ public class CountryInfo {
         this.country = country;
         this.capital = capital;
     }
-    public CountryInfo(CountryInfo countryInfo){
+
+    public CountryInfo(CountryInfo countryInfo) {
         this.country = countryInfo.getCountry();
         this.capital = countryInfo.getCapital();
     }
+
     public String getCountry() {
         return country;
     }
