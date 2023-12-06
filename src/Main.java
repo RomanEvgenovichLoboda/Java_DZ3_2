@@ -23,30 +23,44 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
         writeFiles();
+        System.out.println("\n\tFrom Files :");
         MyRunnable runCountries = new MyRunnable("countries.txt");
         MyRunnable runCapitals = new MyRunnable("capitals.txt");
         Thread threadCountries = new Thread(runCountries);
         Thread threadCapitals = new Thread(runCapitals);
-        threadCountries.setDaemon(true);
         threadCapitals.setDaemon(true);
+        threadCountries.setDaemon(true);
+
         threadCountries.start();
         threadCapitals.start();
+//        try{
+//            Thread.sleep(500);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
         try{
-            threadCountries.join();
-            threadCapitals.join();
+            threadCountries.join(2000);
+            threadCapitals.join(2000);
 
         } catch (InterruptedException ex) {
             ex.printStackTrace();
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             System.err.println(ex.getMessage());
         }
-        System.out.println("ArrayList :");
+        System.out.println("\n\tFrom ArrayList :");
+        MyRunnable.countryInfos.forEach(System.out::println);
+        System.out.println("\n\tSorted by Countries :");
+        MyRunnable.countryInfos.sort(Comparator.comparing(CountryInfo::getCountry));
+        MyRunnable.countryInfos.forEach(System.out::println);
+        System.out.println("\n\tSorted by Capitals :");
+        MyRunnable.countryInfos.sort(Comparator.comparing(CountryInfo::getCapital));
         MyRunnable.countryInfos.forEach(System.out::println);
 
     }

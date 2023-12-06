@@ -11,6 +11,7 @@ public class MyRunnable implements Runnable {
         return countryInfos;
     }
     String path;
+
     public MyRunnable(String path) {
         this.path = path;
         if (countryInfo == null) countryInfo = new CountryInfo();
@@ -21,25 +22,27 @@ public class MyRunnable implements Runnable {
         try(FileReader fileReader = new FileReader(path)) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
+            synchronized (countryInfo){
             while ((line = bufferedReader.readLine()) != null){
-                Thread.sleep(500);
+                Thread.sleep(100);
                 if (path.equals("countries.txt")) {
                     System.out.print(line + " --> ");
-                    synchronized (countryInfo){
+//                    synchronized (countryInfo){
                         countryInfo.setCountry(line);
                         countryInfo.notify();
                         countryInfo.wait();
-                    }
+//                    }
                 } else {
                     System.out.print(line + "\n");
-                    synchronized (countryInfo){
+//                    synchronized (countryInfo){
                         countryInfo.setCapital(line);
                         countryInfos.add(new CountryInfo(countryInfo));
                         countryInfo.notify();
-                        countryInfo.wait();
-                    }
+                    countryInfo.wait();
+
+//                    }
                 }
-            }
+            }}
         } catch (IOException | InterruptedException e ) {
             System.err.println(e.getMessage());
         }

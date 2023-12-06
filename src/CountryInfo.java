@@ -4,7 +4,6 @@ public class CountryInfo {
     public CountryInfo(){
         capital = "";
         country = "";
-
     }
 
     public CountryInfo(String country, String capital) {
