@@ -37,14 +37,8 @@ public class Main {
         Thread threadCapitals = new Thread(runCapitals);
         threadCapitals.setDaemon(true);
         threadCountries.setDaemon(true);
-
         threadCountries.start();
         threadCapitals.start();
-//        try{
-//            Thread.sleep(500);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
         try{
             threadCountries.join(2000);
             threadCapitals.join(2000);
