@@ -11,7 +11,6 @@ public class MyRunnable implements Runnable {
         return countryInfos;
     }
     String path;
-
     public MyRunnable(String path) {
         this.path = path;
         if (countryInfo == null) countryInfo = new CountryInfo();

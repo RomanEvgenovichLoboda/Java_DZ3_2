@@ -48,6 +48,7 @@ public class Main {
         }
         System.out.println("ArrayList :");
         MyRunnable.countryInfos.forEach(System.out::println);
+
     }
 
     public static void writeFiles() {
